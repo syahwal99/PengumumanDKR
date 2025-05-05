@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pengumuman Kelulusan</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; text-align: center; background: #f0f0f0; }
+    .box { background: white; padding: 30px; border-radius: 10px; max-width: 400px; margin: auto; }
+    input { padding: 10px; width: 80%; margin-bottom: 10px; }
+    button { padding: 10px 20px; background: green; color: white; border: none; cursor: pointer; }
+    .result { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Pengumuman Kelulusan</h2>
+    <p>Masukkan nomor HP Anda untuk cek kelulusan</p>
+    <input type="text" id="phone" placeholder="Contoh: 081234567890"><br>
+    <button onclick="cekKelulusan()">Cek Kelulusan</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const dataLulus = {
+      "082234131636": true,
+      "082345678901": true,
+      "083456789012": false
+    };
+
+    function cekKelulusan() {
+      const phone = document.getElementById("phone").value.trim();
+      const resultDiv = document.getElementById("result");
+
+      if (dataLulus.hasOwnProperty(phone)) {
+        if (dataLulus[phone]) {
+          resultDiv.innerHTML = `
+            <p style="color:green;"><strong>Selamat!</strong> Anda dinyatakan <strong>LULUS</strong>.</p>
+            <p>Silakan bergabung ke grup melalui tautan berikut:</p>
+            <a href="https://chat.whatsapp.com/tautan_grup_di_sini" target="_blank">Gabung Grup WhatsApp</a>
+          `;
+        } else {
+          resultDiv.innerHTML = `<p style="color:red;">Maaf, Anda <strong>tidak lulus</strong>.</p>`;
+        }
+      } else {
+        resultDiv.innerHTML = `<p style="color:orange;">Nomor HP tidak ditemukan. Pastikan Anda memasukkan dengan benar.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
