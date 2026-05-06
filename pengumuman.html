@@ -2,49 +2,333 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Pengumuman Kelulusan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dewan Kerja Ranting</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; text-align: center; background: #f0f0f0; }
-    .box { background: white; padding: 30px; border-radius: 10px; max-width: 400px; margin: auto; }
-    input { padding: 10px; width: 80%; margin-bottom: 10px; }
-    button { padding: 10px 20px; background: green; color: white; border: none; cursor: pointer; }
-    .result { margin-top: 20px; }
+    :root {
+      color-scheme: light;
+      --blue: #1f4c8f;
+      --blue-strong: #163a6b;
+      --orange: #f59e0b;
+      --green: #10b981;
+      --red: #ef4444;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-700: #374151;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--gray-100);
+      color: #111827;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--blue), var(--blue-strong));
+      color: white;
+      padding: 32px 24px;
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-title h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .header-title p {
+      max-width: 520px;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .summary-card {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    .summary-card strong {
+      display: block;
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 24px auto 40px;
+      padding: 0 24px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .section h2 {
+      color: var(--blue-strong);
+      font-size: 1.5rem;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .info-card {
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    .info-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gray-100);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.85rem;
+      color: var(--gray-700);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.95rem;
+    }
+
+    .table th {
+      color: var(--gray-700);
+      font-weight: 600;
+    }
+
+    .status {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .status.green {
+      background: #d1fae5;
+      color: #047857;
+    }
+
+    .status.orange {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+
+    .status.red {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--gray-700);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 720px) {
+      header {
+        text-align: center;
+      }
+
+      .header-content {
+        justify-content: center;
+      }
+
+      .summary {
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2>Pengumuman Kelulusan</h2>
-    <p>Masukkan nomor HP Anda untuk cek kelulusan</p>
-    <input type="text" id="phone" placeholder="Contoh: 081234567890"><br>
-    <button onclick="cekKelulusan()">Cek Kelulusan</button>
-    <div class="result" id="result"></div>
-  </div>
+  <header>
+    <div class="header-content">
+      <div class="header-title">
+        <h1>Dewan Kerja Ranting</h1>
+        <p>Dashboard informasi untuk memantau catatan keuangan, program kerja, dan absensi anggota secara terpusat.</p>
+      </div>
+      <div class="summary">
+        <div class="summary-card">
+          <strong>Rp 8.750.000</strong>
+          <span>Total Saldo Kas</span>
+        </div>
+        <div class="summary-card">
+          <strong>5 Program</strong>
+          <span>Berjalan Bulan Ini</span>
+        </div>
+        <div class="summary-card">
+          <strong>92%</strong>
+          <span>Kehadiran Rata-rata</span>
+        </div>
+      </div>
+    </div>
+  </header>
 
-  <script>
-    const dataLulus = {
-      "082234131636": true,
-      "082345678901": true,
-      "083456789012": false
-    };
+  <main>
+    <section class="section">
+      <h2>Catatan Keuangan</h2>
+      <div class="grid-two">
+        <div class="info-card">
+          <h3>Ringkasan Kas</h3>
+          <p class="tag">Update: 15 Juli 2024</p>
+          <ul style="margin-top: 12px; display: grid; gap: 8px;">
+            <li>Pemasukan kegiatan: Rp 12.500.000</li>
+            <li>Pengeluaran operasional: Rp 3.750.000</li>
+            <li>Dana cadangan: Rp 1.200.000</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h3>Catatan Terbaru</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Transaksi</th>
+                <th>Nominal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>12/07/24</td>
+                <td>Donasi Kegiatan Pramuka</td>
+                <td>Rp 2.000.000</td>
+              </tr>
+              <tr>
+                <td>10/07/24</td>
+                <td>Pengadaan ATK</td>
+                <td>Rp 850.000</td>
+              </tr>
+              <tr>
+                <td>08/07/24</td>
+                <td>Transport Program Bakti</td>
+                <td>Rp 450.000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-    function cekKelulusan() {
-      const phone = document.getElementById("phone").value.trim();
-      const resultDiv = document.getElementById("result");
+    <section class="section">
+      <h2>Program Kerja</h2>
+      <div class="grid-two">
+        <div class="info-card">
+          <h3>Agenda Mingguan</h3>
+          <p>Koordinasi lintas sangga untuk persiapan kemah dan pelatihan kepemimpinan. Fokus minggu ini pada pembagian tim perlengkapan.</p>
+        </div>
+        <div class="info-card">
+          <h3>Rencana Bulanan</h3>
+          <ul style="display: grid; gap: 10px;">
+            <li><strong>Pelatihan Administrasi</strong> <span class="status green">Selesai</span></li>
+            <li><strong>Bakti Sosial Kelurahan</strong> <span class="status orange">Berjalan</span></li>
+            <li><strong>Pelatihan SAR</strong> <span class="status orange">Berjalan</span></li>
+            <li><strong>Perkemahan Sabtu-Minggu</strong> <span class="status red">Persiapan</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-      if (dataLulus.hasOwnProperty(phone)) {
-        if (dataLulus[phone]) {
-          resultDiv.innerHTML = `
-            <p style="color:green;"><strong>Selamat!</strong> Anda dinyatakan <strong>LULUS</strong>.</p>
-            <p>Silakan bergabung ke grup melalui tautan berikut:</p>
-            <a href="https://chat.whatsapp.com/tautan_grup_di_sini" target="_blank">Gabung Grup WhatsApp</a>
-          `;
-        } else {
-          resultDiv.innerHTML = `<p style="color:red;">Maaf, Anda <strong>tidak lulus</strong>.</p>`;
-        }
-      } else {
-        resultDiv.innerHTML = `<p style="color:orange;">Nomor HP tidak ditemukan. Pastikan Anda memasukkan dengan benar.</p>`;
-      }
-    }
-  </script>
+    <section class="section">
+      <h2>Absensi Anggota</h2>
+      <div class="grid-two">
+        <div class="info-card">
+          <h3>Ringkasan Kehadiran</h3>
+          <p class="tag">Pertemuan: 14 Juli 2024</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Tim</th>
+                <th>Hadir</th>
+                <th>Tidak Hadir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bidang Program</td>
+                <td>8</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>Bidang Humas</td>
+                <td>6</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Bidang Keuangan</td>
+                <td>5</td>
+                <td>1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-card">
+          <h3>Catatan Absensi</h3>
+          <ul style="display: grid; gap: 10px;">
+            <li>✅ 17 anggota hadir tepat waktu.</li>
+            <li>🕒 2 anggota hadir setelah 10 menit.</li>
+            <li>📌 2 anggota izin karena tugas sekolah.</li>
+            <li>📣 Lakukan follow-up kepada 1 anggota tanpa kabar.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Dashboard DKR &mdash; Diperbarui secara berkala oleh sekretariat Dewan Kerja Ranting.</p>
+  </footer>
 </body>
 </html>
